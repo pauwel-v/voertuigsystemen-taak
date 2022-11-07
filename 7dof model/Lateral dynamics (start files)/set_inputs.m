@@ -27,7 +27,7 @@ inputs.torque_vectoring = 0; % boolean to activate torque vectoring
 inputs.transient = 0;
 
 % initial velocity:
-start_vel = 15; % m/s
+start_vel = 5; % m/s
 inputs.v_init = start_vel;
 
 

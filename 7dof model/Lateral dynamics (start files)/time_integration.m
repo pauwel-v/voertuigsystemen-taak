@@ -1,4 +1,4 @@
-function [X, data, Nc] = time_integration(vehicle_param, inputs)
+function [X, data] = time_integration(vehicle_param, inputs)
 %
 % [X, data] = time_integration(vehicle_param, inputs)
 %

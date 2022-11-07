@@ -20,7 +20,7 @@ inputs = set_inputs(vehicle_param);
 
 
 %% Perform time-integration of vehicle system over inputs:
-[X, data, Nc] = time_integration(vehicle_param, inputs);
+[X, data] = time_integration(vehicle_param, inputs);
 % inputs.torque_vectoring = 1;
 % [X_tvec_static_s, data_tvec_static_s] = time_integration(vehicle_param, inputs);
 % inputs.transient = 1;
@@ -29,14 +29,11 @@ inputs = set_inputs(vehicle_param);
 
 %% Post-process results: 
 % post_processing([X; X_tvec_static_s; X_tvec_transient_s], [data; data_tvec_static_s; data_tvec_transient_s], vehicle_param, inputs);
-data = [zeros(size(data,1),1) data];
+
 %% write results of Torque-Vectoring to EXCEL file
 % writematrix([inputs.time; [0, data_tvec_static_s(22,:)]]', 'torqueL.xlsx');
 % writematrix([inputs.time; [0, data_tvec_static_s(23,:)]]', 'torqueR.xlsx');
-
-
-figure
-plot(inputs.time, Nc);
+data = [zeros(size(data,1),1) data];
 
 figure
 yyaxis left

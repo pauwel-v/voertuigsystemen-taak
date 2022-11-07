@@ -86,20 +86,11 @@ ackermanyawrate = (v_accent(1)*steer_angle)/L;
 g = 9.81;
 currentCW = (F_fr_n + F_rl_n)/(M*g);
 
+dist_factor_front_rear = 0.5; % how the fix for cross-weight should be distributed between front and rear
 
-% wantedCW = Nc_old;
-% 
-% dist_factor_front_rear = 0.5; % how the fix for cross-weight should be distributed between front and rear
-% 
-% diffCW = abs(currentCW - wantedCW);
-% 
-% if currentCW > wantedCW
-%     F_fl_n = F_fl_n + dist_factor_front_rear*diffCW*M*g;
-%     F_rr_n = F_rr_n + (1-dist_factor_front_rear)*diffCW*M*g;
-% else
-%     F_fr_n = F_fr_n + dist_factor_front_rear*diffCW*M*g;
-%     F_rl_n = F_rl_n + (1-dist_factor_front_rear)*diffCW*M*g;
-% end
+diffCW = abs(currentCW - wantedCW);
+
+F_fr_n = F_fr_n + 0.5* dist_factor_front_rear * 
 % end of control bs
 
 
@@ -146,7 +137,7 @@ else
 end
 
 %% determine necessary counterweight
-Nc = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, ackermanyawrate, dphidt, I_zz, Nc_old, M);
+Nc = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, ackermanyawrate, dphidt, I_zz, Nc_old,M);
 
 %% assign accelerations
 dX(8) = acc(1);
