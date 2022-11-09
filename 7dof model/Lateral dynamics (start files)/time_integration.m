@@ -21,6 +21,8 @@ X(vehicle_param.n_dofs+4,1) = inputs.v_init/vehicle_param.r_w;
 X(vehicle_param.n_dofs+5,1) = inputs.v_init/vehicle_param.r_w;
 X(vehicle_param.n_dofs+6,1) = inputs.v_init/vehicle_param.r_w;
 X(vehicle_param.n_dofs+7,1) = inputs.v_init/vehicle_param.r_w;
+
+Nc = zeros(1, length(inputs.time));
 try
     % Create waitbar to track simulation progress:
     wbar = waitbar(0,'Simulation running. Please wait...');
@@ -35,7 +37,7 @@ try
 %             [dX(:,k+1), data(:,k)] = equations_of_motion(vehicle_param, inputs, X(:,k), dX(:,k), k, data(:,k-1));
 %         end
 
-        Nc = zeros(1, length(inputs.time));
+        
         [dX(:,k+1), data(:,k), Nc(k+1)] = equations_of_motion(vehicle_param, inputs, X(:,k), dX(:,k), k, Nc(k));
 
 
@@ -50,6 +52,7 @@ catch ERROR
     delete(wbar)
     rethrow(ERROR)
 end
-    
+
+data = [data; Nc(2:end)];
 % Close waitbar:
 close(wbar)

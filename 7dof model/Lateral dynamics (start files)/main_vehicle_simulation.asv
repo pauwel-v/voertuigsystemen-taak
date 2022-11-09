@@ -26,7 +26,7 @@ data = [zeros(size(data,1),1) data];
 inputs.control_on = 1;
 
 [X_control, data_control] = time_integration(vehicle_param, inputs);
-data_control = [zeros(size(data_control,1),1) data_control];
+data_control = [zeros(size(d))]
 % inputs.torque_vectoring = 1;
 % [X_tvec_static_s, data_tvec_static_s] = time_integration(vehicle_param, inputs);
 % inputs.transient = 1;
@@ -35,4 +35,6 @@ data_control = [zeros(size(data_control,1),1) data_control];
 
 %% Post-process results:
 close all;
+size(X)
+size(data)
 post_processing([X; X_control], [data; data_control], vehicle_param, inputs);

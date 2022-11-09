@@ -7,7 +7,7 @@ function inputs = set_inputs(vehicle_param)
 % Obligatory time information:
 % smaller dt makes animation much slower but forces are much more precise
 inputs.dt = 0.001;
-inputs.sim_time = 6;
+inputs.sim_time = 10;
 inputs.time = (0:inputs.dt:inputs.sim_time);
 
 inputs.animation = 0; % 1 = animate
@@ -21,13 +21,13 @@ inputs.save_video = 0;
 inputs.T = ones(1,length(inputs.time))*200;
 inputs.torque_vectoring = 0; % boolean to activate torque vectoring
 
-
+inputs.control_on = 0;
 
 % use relaxation length
 inputs.transient = 0;
 
 % initial velocity:
-start_vel = 5; % m/s
+start_vel = 15; % m/s
 inputs.v_init = start_vel;
 
 
