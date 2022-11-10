@@ -83,16 +83,21 @@ ackermanyawrate = (v_accent(1)*steer_angle)/L;
 [F_fr_n, F_fl_n, F_rr_n, F_rl_n] = get_tyre_forces(M, acc_old(1), acc_old(2), alpha, b, L, tf, tr, h, h_aero, F_aero, T(k));
 
 % start of control bs
-
-dist_factor_front_rear = 0.5; % how the fix for cross-weight should be distributed between front and rear
-
 diffCW = Nc_old;
-% 
-% F_fr_n = F_fr_n + dist_factor_front_rear * diffCW;
-% F_rl_n = F_rl_n + dist_factor_front_rear*diffCW;
-% 
-% F_fl_n = F_fr_n - dist_factor_front_rear * diffCW;
-% F_rr_n = F_rr_n - dist_factor_front_rear * diffCW;
+
+% F_fl_n = F_fl_n - diffCW/2*M*9.81;
+% F_fr_n = F_fr_n + diffCW/2*M*9.81;
+% F_rl_n = F_rl_n + diffCW/2*M*9.81;
+% F_rr_n = F_rr_n - diffCW/2*M*9.81;
+factor_frontrear = 0.5;
+
+if inputs.control_on
+    F_fl_n = F_fl_n - diffCW*factor_frontrear*M*9.81;
+    F_fr_n = F_fr_n + diffCW*factor_frontrear*M*9.81;
+    F_rl_n = F_rl_n + diffCW*(1-factor_frontrear)*M*9.81;
+    F_rr_n = F_rr_n - diffCW*(1-factor_frontrear)*M*9.81;
+end
+
 % end of control bs
 
 
@@ -139,7 +144,7 @@ else
 end
 
 %% determine necessary counterweight
-Nc = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, ackermanyawrate, dphidt, I_zz, Nc_old,M);
+[Nc, B] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, ackermanyawrate, dphidt, I_zz, Nc_old,M);
 
 %% assign accelerations
 dX(8) = acc(1);
@@ -181,7 +186,7 @@ data = [F_fl(1); F_fl(2); F_fl(3);... % 1-3
 %         sign_Fx_fl; sign_Fx_fr; sign_Fx_rl; sign_Fx_rr;...
         F_aero; ... % 17
         beta_fl; beta_fr; beta_rl; beta_rr;... % 18-21
-        T_l; T_r; ackermanyawrate; v_accent(1)]; % 22-26
+        T_l; T_r; ackermanyawrate; v_accent(1); B]; % 22-26
 % data = Nc;
     
 
