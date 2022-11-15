@@ -10,14 +10,14 @@ delta = zeros(1,length(t));
 
 t1 = 0.5;
 [~,i1] = min(abs(t-t1));
-t2 = 1.5;
+t2 = 2.5;
 [~,i2] = min(abs(t-t2));
 delta(i1:i2) = 10*pi/180;
 
 
-t1 = 2.5;
+t1 = 3.5;
 [~,i1] = min(abs(t-t1));
-t2 = 3.5;
+t2 = 4.5;
 [~,i2] = min(abs(t-t2));
 delta(i1:i2) = -10*pi/180;
 

@@ -1,20 +1,26 @@
 function [] = post_processing(X, data, vehicle_param, inputs)
-% manouvre plots
+% ackermann plots
 figure
-yyaxis left
 plot(inputs.time, data(24,:));
 hold on
-plot(inputs.time, X(vehicle_param.n_dofs + 3,:));
+plot(inputs.time, X(vehicle_param.n_dofs + 3, :));
+plot(inputs.time, X(vehicle_param.n_dofs + 3 + size(X,1)/2,:));
 % plot(inputs.time, inputs.delta);
-yyaxis right
-plot(inputs.time, data(25,:));
-ylabel('V_x [m/s]')
 xlabel('t [s]')
-legend('Ackerman yaw rate [rad/s]', 'Effective yaw rate [rad/s]')%, 'steering angle delta [rad]')
+legend('Ackerman yaw rate [rad/s]', 'Effective yaw rate without control[rad/s]', 'Effective yaw rate with control[rad/s]')%, 'steering angle delta [rad]')
 sgtitle('Comparison Ackerman yaw rate and effective yaw rate')
 
+% track plot
+figure
+plot(X(1,:), X(2,:))
+hold on
+plot(X(1+size(X,1)/2,:), X(2+size(X,1)/2,:))
+legend('Track no control', 'Track with control')
+xlabel('x [m]')
+ylabel('y [m]')
+
 % total normal force verification
-F_z_tot = data(3,:) + data(6,:) + data(9,:) + data(12,:);
+F_z_tot = data(3+size(data,1)/2,:) + data(6+size(data,1)/2,:) + data(9+size(data,1)/2,:) + data(12+size(data,1)/2,:);
 M = vehicle_param.M;
 g = 9.81;
 
@@ -36,26 +42,56 @@ plot(inputs.time, data(26,:))
 ylabel('B [m?]')
 xlabel('t [s]')
 
-figure 
-plot(inputs.time, inputs.delta)
-ylabel('Steering angle [rad]')
-xlabel('t [s]')
-
-% plot of normal tire forces
+% plot of ideal moment around y
+My = data(24,:)*vehicle_param.Izz;
 figure
-subplot(411)
-plot(inputs.time, data(3,:))
-title('F_{fl}')
-subplot(412)
+plot(inputs.time, My)
+xlabel('t [s]')
+ylabel('M_y [Nm]')
+
+figure
+subplot(211)
+plot(inputs.time, data(2,:))
+hold on
+plot(inputs.time, data(2+size(data,1)/2, :))
+subplot(212)
+plot(inputs.time, data(5, :));
+hold on
+plot(inputs.time, data(5+size(data,1)/2, :));
+sgtitle('Front lateral forces')
+
+
+figure
+subplot(211)
 plot(inputs.time, data(6,:))
-title('F_{fr}')
-subplot(413)
-plot(inputs.time, data(9,:))
-title('F_{rl}')
-subplot(414)
-plot(inputs.time, data(12,:))
-title('F_{rr}')
-sgtitle('Normal tire forces')
+hold on
+plot(inputs.time, data(6+size(data,1)/2, :))
+subplot(212)
+plot(inputs.time, data(8, :));
+hold on
+plot(inputs.time, data(8+size(data,1)/2, :));
+sgtitle('Rear lateral forces')
+
+% figure 
+% plot(inputs.time, inputs.delta)
+% ylabel('Steering angle [rad]')
+% xlabel('t [s]')
+
+% % plot of normal tire forces
+% figure
+% subplot(411)
+% plot(inputs.time, data(3,:))
+% title('F_{fl}')
+% subplot(412)
+% plot(inputs.time, data(6,:))
+% title('F_{fr}')
+% subplot(413)
+% plot(inputs.time, data(9,:))
+% title('F_{rl}')
+% subplot(414)
+% plot(inputs.time, data(12,:))
+% title('F_{rr}')
+% sgtitle('Normal tire forces')
 
 figure
 subplot(515)
@@ -89,31 +125,31 @@ Lgnd = legend('show');
 Lgnd.Position(1) = 0.01;
 Lgnd.Position(2) = 0.4;
 
-% force distribution left and right
-dF_front = (data(3+size(data,1)/2,:) - data(6+size(data,1)/2,:))/(data(3+size(data,1)/2,:) + data(6+size(data,1)/2,:));
-dF_rear = (data(9+size(data,1)/2,:) - data(12+size(data,1)/2,:))/(data(9+size(data,1)/2,:) + data(12+size(data,1)/2,:));
-
-figure
-plot(inputs.time, dF_front)
-hold on 
-plot(inputs.time, dF_rear)
-legend('Front', 'Rear')
-title('Relative difference')
-xlabel('Time [s]')
-ylabel('%')
-
-% force distribution left and right
-dF_front_wo = (data(3,:) - data(6,:))/(data(3,:) + data(6,:));
-dF_rear_wo = (data(9,:) - data(12,:))/(data(9,:) + data(12,:));
-
-figure
-plot(inputs.time, dF_front_wo)
-hold on 
-plot(inputs.time, dF_rear_wo)
-legend('Front', 'Rear')
-title('Relative difference')
-xlabel('Time [s]')
-ylabel('%')
+% % force distribution left and right
+% dF_front = (data(3+size(data,1)/2,:) - data(6+size(data,1)/2,:))/(data(3+size(data,1)/2,:) + data(6+size(data,1)/2,:));
+% dF_rear = (data(9+size(data,1)/2,:) - data(12+size(data,1)/2,:))/(data(9+size(data,1)/2,:) + data(12+size(data,1)/2,:));
+% 
+% figure
+% plot(inputs.time, dF_front)
+% hold on 
+% plot(inputs.time, dF_rear)
+% legend('Front', 'Rear')
+% title('Relative difference')
+% xlabel('Time [s]')
+% ylabel('%')
+% 
+% % force distribution left and right
+% dF_front_wo = (data(3,:) - data(6,:))/(data(3,:) + data(6,:));
+% dF_rear_wo = (data(9,:) - data(12,:))/(data(9,:) + data(12,:));
+% 
+% figure
+% plot(inputs.time, dF_front_wo)
+% hold on 
+% plot(inputs.time, dF_rear_wo)
+% legend('Front', 'Rear')
+% title('Relative difference')
+% xlabel('Time [s]')
+% ylabel('%')
 end
 % %
 % % This function is for post_processing the information form the
