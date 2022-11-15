@@ -40,9 +40,8 @@ sgtitle('Comparison Matlab and Simcenter 3D simulations')
 % figure
 % plot(inputs.time, 
 
-Fn_fl = data(:,3);
 
-
+Fn_fl = data(:,3)
 
 
 %%

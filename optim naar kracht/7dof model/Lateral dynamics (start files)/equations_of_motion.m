@@ -86,7 +86,7 @@ ackermanyawrate = (v_accent(1)*steer_angle)/L;
 
 dist_factor_front_rear = 0.5; % how the fix for cross-weight should be distributed between front and rear
 
-diffCW = (Nc_old(1) + Nc_old(2))/(M*9.81);
+diffCW = (Nc_old(1) + Nc_old(2))/(M*9.81)
 
 
 F_fr_n = max(F_fr_n - (1-dist_factor_front_rear) * diffCW*M*9.81,0);
