@@ -24,7 +24,8 @@ inputs = set_inputs(vehicle_param);
 data = [zeros(size(data,1),1) data];
 
 inputs.control_on = 1;
-
+inputs.v_init = 10;
+inputs.T = ones(1,length(inputs.time))*200;
 [X_control, data_control] = time_integration(vehicle_param, inputs);
 data_control = [zeros(size(data_control,1),1) data_control];
 % inputs.torque_vectoring = 1;

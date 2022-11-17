@@ -14,7 +14,7 @@ vehicle_param.M = 1500; % vehicle mass [kg]
 vehicle_param.Izz = 2058; % vehicle moment of inertia [kgm²]
 vehicle_param.L = 3.18; % Wheel base [m]
 vehicle_param.h = 0.5;  % cog heigth wrt wheel axle [m]
-vehicle_param.a = 1.751;  % Distance between front axle and cog [m]
+vehicle_param.a = 1.6;  % Distance between front axle and cog [m]
 vehicle_param.b = vehicle_param.L-vehicle_param.a;
 
 % Aerodynamic data
