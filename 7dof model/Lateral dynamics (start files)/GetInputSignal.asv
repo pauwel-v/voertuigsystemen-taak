@@ -28,7 +28,7 @@ function [delta, t] = GetInputSignal(dt,t)
 t2 = 0:0.001: 3/4 * 1.4;
 t1 = 3/4*1.4:0.001:1.4;
 delta = [sin(2*pi/1.4 * t2), -1*ones(1,length(0:0.001:1/4*1.4)-1), sin(2*pi/1.4 * t1)];
-delta = 10*pi/180.*[delta, zeros(1,length(t)- length(delta))];
+delta = [delta, zeros(length(t)- length(delta))]
 
 
 

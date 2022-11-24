@@ -1,7 +1,7 @@
 function [Nc, B] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, ackermanyawrate, dphi, I_zz, last_Nc,M)
 % tuning parameters
-lambda = 0.1;
-zeta = 1;
+lambda = 0.0001;
+zeta = 0.1;
 
 N_xfl = F_fl(1)/F_fl(3);
 N_yfl = F_fl(2)/F_fl(3);
@@ -28,7 +28,7 @@ B = [(tf/2*N_xfl - a*N_yfl) + (tf/2*N_xfr + a*N_yfr) (-tr/2*N_xrl - b*N_yrl) + (
 f = @(Nc) norm(B*[Nc(1); Nc(2)] - M_y) + lambda*norm([Nc(1); Nc(2)]) + zeta*norm([Nc(1); Nc(2)] - last_Nc);
 
 options = optimset('MaxFunEvals', 2e10);
-[Nc, ~] = fminsearch(f, [0.1; 0.1], options);
+[Nc, ~] = fminsearch(f, [0; 0], options);
 
 B = norm(B);
 Nc = (Nc(1)+Nc(2));
