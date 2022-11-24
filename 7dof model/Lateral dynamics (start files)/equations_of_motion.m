@@ -89,7 +89,7 @@ diffCW = Nc_old;
 % F_fr_n = F_fr_n + diffCW/2*M*9.81;
 % F_rl_n = F_rl_n + diffCW/2*M*9.81;
 % F_rr_n = F_rr_n - diffCW/2*M*9.81;
-factor_frontrear = 0.8;
+factor_frontrear = 0.5;
 
 if inputs.control_on
     F_fl_n = F_fl_n - diffCW*factor_frontrear*M*9.81;

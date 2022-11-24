@@ -18,7 +18,7 @@ inputs.save_video = 0;
 
 % Wheel Torque:
 % inputs.T = [ones(1, floor(length(inputs.time)/2))*50 -50*ones(1,floor(length(inputs.time)/2))];
-inputs.T = ones(1,length(inputs.time))*0;
+inputs.T = ones(1,length(inputs.time))*200;
 %inputs.T = ones(1,length(inputs.time))*200;
 inputs.torque_vectoring = 0; % boolean to activate torque vectoring
 
@@ -28,7 +28,7 @@ inputs.control_on = 0;
 inputs.transient = 0;
 
 % initial velocity:
-start_vel = 10; % m/s
+start_vel = 15; % m/s
 inputs.v_init = start_vel;
 
 
