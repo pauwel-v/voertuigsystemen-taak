@@ -125,6 +125,75 @@ Lgnd = legend('show');
 Lgnd.Position(1) = 0.01;
 Lgnd.Position(2) = 0.4;
 
+% plot of tire forces in friction circle
+mu = vehicle_param.mu;
+r = mu*M*g/4;
+
+ang = 0:0.01:2*pi;
+xci = r*cos(ang);
+yci = r*sin(ang);
+
+figure
+subplot(2,2,1)
+plot(data(1,:), data(2,:))
+hold on
+plot(xci, yci)
+title('Front left')
+axis tight
+subplot(2,2,2)
+plot(data(4,:), data(5,:))
+hold on
+plot(xci, yci)
+title('Front right')
+axis tight
+subplot(2,2,3)
+plot(data(7,:), data(8,:))
+hold on
+plot(xci, yci)
+title('Rear left')
+axis tight
+subplot(2,2,4)
+plot(data(10,:), data(11,:))
+hold on
+plot(xci, yci)
+title('Rear right')
+axis tight
+sgtitle('Tire forces no control')
+
+figure
+subplot(2,2,1)
+plot(data(1,:)+size(data,1)/2, data(2,:)+size(data,1)/2)
+hold on
+plot(xci, yci)
+title('Front left')
+axis tight
+subplot(2,2,2)
+plot(data(4+size(data,1)/2,:), data(5+size(data,1)/2,:))
+hold on
+plot(xci, yci)
+title('Front right')
+axis tight
+subplot(2,2,3)
+plot(data(7+size(data,1)/2,:), data(8+size(data,1)/2,:))
+hold on
+plot(xci, yci)
+title('Rear left')
+axis tight
+subplot(2,2,4)
+plot(data(10+size(data,1)/2,:), data(11+size(data,1)/2,:))
+hold on
+plot(xci, yci)
+title('Rear right')
+axis tight
+sgtitle('Tire forces with control')
+
+% slip plots
+figure
+subplot(4,1,1)
+plot(inputs.time, data(13,:))
+hold on
+plot(inputs.time, data(13,))
+
 % % force distribution left and right
 % dF_front = (data(3+size(data,1)/2,:) - data(6+size(data,1)/2,:))/(data(3+size(data,1)/2,:) + data(6+size(data,1)/2,:));
 % dF_rear = (data(9+size(data,1)/2,:) - data(12+size(data,1)/2,:))/(data(9+size(data,1)/2,:) + data(12+size(data,1)/2,:));

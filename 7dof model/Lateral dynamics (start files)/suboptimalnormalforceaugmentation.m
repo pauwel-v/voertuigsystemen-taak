@@ -1,7 +1,7 @@
 function [Nc, B] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, ackermanyawrate, dphi, I_zz, last_Nc,M)
 % tuning parameters
 lambda = 0.0001;
-zeta = 0.1;
+zeta = 0.5;
 
 N_xfl = F_fl(1)/F_fl(3);
 N_yfl = F_fl(2)/F_fl(3);

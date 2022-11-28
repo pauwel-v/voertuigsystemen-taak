@@ -1,10 +1,17 @@
 function [] = post_processing(X, data, vehicle_param, inputs)
 % ackermann plots
 figure
+yyaxis left
 plot(inputs.time, data(24,:));
 hold on
 plot(inputs.time, X(vehicle_param.n_dofs + 3, :));
 plot(inputs.time, X(vehicle_param.n_dofs + 3 + size(X,1)/2,:));
+legend('Ackerman yaw rate [rad/s]', 'Effective yaw rate without control[rad/s]', 'Effective yaw rate with control[rad/s]')%, 'steering angle delta [rad]')
+yyaxis right
+plot(inputs.time, data(25,:))
+hold on
+plot(inputs.time, data(25+size(data,1)/2,:))
+ylabel('V_x [m/s]')
 % plot(inputs.time, inputs.delta);
 xlabel('t [s]')
 legend('Ackerman yaw rate [rad/s]', 'Effective yaw rate without control[rad/s]', 'Effective yaw rate with control[rad/s]')%, 'steering angle delta [rad]')
@@ -124,6 +131,93 @@ fig.Position(3) = fig.Position(3) + 250;
 Lgnd = legend('show');
 Lgnd.Position(1) = 0.01;
 Lgnd.Position(2) = 0.4;
+
+% plot of tire forces in friction circle
+mu = vehicle_param.mu;
+r = mu*M*g/4;
+
+ang = 0:0.01:2*pi;
+xci = r*cos(ang);
+yci = r*sin(ang);
+
+figure
+subplot(2,2,1)
+plot(data(1,:), data(2,:))
+hold on
+plot(xci, yci)
+title('Front left')
+axis tight
+subplot(2,2,2)
+plot(data(4,:), data(5,:))
+hold on
+plot(xci, yci)
+title('Front right')
+axis tight
+subplot(2,2,3)
+plot(data(7,:), data(8,:))
+hold on
+plot(xci, yci)
+title('Rear left')
+axis tight
+subplot(2,2,4)
+plot(data(10,:), data(11,:))
+hold on
+plot(xci, yci)
+title('Rear right')
+axis tight
+sgtitle('Tire forces no control')
+
+figure
+subplot(2,2,1)
+plot(data(1,:)+size(data,1)/2, data(2,:)+size(data,1)/2)
+hold on
+plot(xci, yci)
+title('Front left')
+axis tight
+subplot(2,2,2)
+plot(data(4+size(data,1)/2,:), data(5+size(data,1)/2,:))
+hold on
+plot(xci, yci)
+title('Front right')
+axis tight
+subplot(2,2,3)
+plot(data(7+size(data,1)/2,:), data(8+size(data,1)/2,:))
+hold on
+plot(xci, yci)
+title('Rear left')
+axis tight
+subplot(2,2,4)
+plot(data(10+size(data,1)/2,:), data(11+size(data,1)/2,:))
+hold on
+plot(xci, yci)
+title('Rear right')
+axis tight
+sgtitle('Tire forces with control')
+
+% slip plots
+figure
+subplot(4,1,1)
+plot(inputs.time, data(13,:))
+hold on
+plot(inputs.time, data(13+size(data,1)/2,:))
+title('Front left')
+subplot(4,1,2)
+plot(inputs.time, data(14,:))
+hold on
+plot(inputs.time, data(14+size(data,1)/2,:))
+title('Front right')
+subplot(4,1,3)
+plot(inputs.time, data(15,:))
+hold on 
+plot(inputs.time, data(15+size(data,1)/2,:))
+title('Rear left')
+subplot(4,1,4)
+plot(inputs.time, data(16,:))
+hold on
+plot(inputs.time, data(16+size(data,1)/2,:))
+title('Rear right')
+sgtitle('Tire slips')
+legend('No control', 'With control')
 
 % % force distribution left and right
 % dF_front = (data(3+size(data,1)/2,:) - data(6+size(data,1)/2,:))/(data(3+size(data,1)/2,:) + data(6+size(data,1)/2,:));
