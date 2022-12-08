@@ -28,7 +28,7 @@ inputs.control_on = 0;
 inputs.transient = 0;
 
 % initial velocity:
-start_vel = 13; % m/s
+start_vel = 20; % m/s
 inputs.v_init = start_vel;
 
 

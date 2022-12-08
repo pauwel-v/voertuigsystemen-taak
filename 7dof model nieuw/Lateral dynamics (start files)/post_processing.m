@@ -43,9 +43,8 @@ ylabel('B [m]')
 xlabel('t [s]')
 
 % plot of ideal moment around y
-My = data(24,:)*vehicle_param.Izz;
 figure
-plot(inputs.time, My)
+plot(inputs.time, data(27 +size(data,1)/2,:))
 xlabel('t [s]')
 ylabel('M_y [Nm]')
 

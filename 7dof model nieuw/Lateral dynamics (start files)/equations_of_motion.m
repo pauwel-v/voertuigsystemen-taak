@@ -1,4 +1,4 @@
-function    [dX, data, Nc] = equations_of_motion(vehicle_param, inputs, X, dX_old, k, Nc_old)
+function    [dX, data, Nc, ackermanyawrate] = equations_of_motion(vehicle_param, inputs, X, dX_old, k, Nc_old, ackermanyawrate_old)
 %
 % This file solves the equations of motion with respect to the acceleration
 % in order to determine dX. Other interesting variables can be stored in
@@ -145,10 +145,13 @@ end
 
 %% determine necessary counterweight
 if inputs.control_on
-    [Nc, B] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, ackermanyawrate, dphidt, I_zz, Nc_old,M);
+%     [Nc, B] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, (ackermanyawrate_old - ackermanyawrate)/inputs.dt, I_zz, Nc_old,M);
+    [Nc, B, M_y] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, (ackermanyawrate - ackermanyawrate_old)/inputs.dt - m_tot(3)/I_zz, I_zz, Nc_old, M);
+
 else
     Nc = 0;
     B = 0;
+    M_y = 0;
 end
 
 %% assign accelerations
@@ -191,7 +194,7 @@ data = [F_fl(1); F_fl(2); F_fl(3);... % 1-3
 %         sign_Fx_fl; sign_Fx_fr; sign_Fx_rl; sign_Fx_rr;...
         F_aero; ... % 17
         beta_fl; beta_fr; beta_rl; beta_rr;... % 18-21
-        T_l; T_r; ackermanyawrate; v_accent(1); B]; % 22-26
+        T_l; T_r; ackermanyawrate; v_accent(1); B; M_y]; % 22-26
 % data = Nc;
     
 

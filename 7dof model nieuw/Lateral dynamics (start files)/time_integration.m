@@ -23,6 +23,7 @@ X(vehicle_param.n_dofs+6,1) = inputs.v_init/vehicle_param.r_w;
 X(vehicle_param.n_dofs+7,1) = inputs.v_init/vehicle_param.r_w;
 
 Nc = zeros(1, length(inputs.time));
+ackermanyawrates = zeros(1, length(inputs.time));
 try
     % Create waitbar to track simulation progress:
     wbar = waitbar(0,'Simulation running. Please wait...');
@@ -38,7 +39,7 @@ try
 %         end
 
         
-        [dX(:,k+1), data(:,k), Nc(k+1)] = equations_of_motion(vehicle_param, inputs, X(:,k), dX(:,k), k, Nc(k));
+        [dX(:,k+1), data(:,k), Nc(k+1), ackermanyawrates(k+1)] = equations_of_motion(vehicle_param, inputs, X(:,k), dX(:,k), k, Nc(k), ackermanyawrates(k));
 
 
         % Euler integration step:
