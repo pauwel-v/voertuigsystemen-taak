@@ -23,7 +23,7 @@ M_y = (ackermanyawraterate)*I_zz;
 % [Nc, ~] = fminsearch(f, 0.1, options);
 
 
-B_vec = [(tf/2*N_xfl - a*N_yfl)+(tf/2*N_xfr + a*N_yfr), (-tr/2*N_xrl - b*N_yrl)+(-tr/2*N_xrr + b*N_yrr)];
+B_vec = [(tf/2*N_xfl - a*N_yfl)+(tf/2*N_xfr + a*N_yfr)+ (-tr/2*N_xrl - b*N_yrl)+(-tr/2*N_xrr + b*N_yrr)];
 
 g = 9.81;
 % f = @(Nc_vec) (B_vec*[Nc_vec(1); Nc_vec(2)] - M_y)^2 + lambda*((Nc_vec(1)+Nc_vec(2)))^2 + zeta*((Nc_vec(1)+Nc_vec(2)) - last_Nc*M*9.81)^2;
@@ -41,8 +41,8 @@ options = optimset('MaxIter', 2e100, 'MaxFunEvals',2e100);
 Nc = Nc_vec;
 B = norm(B_vec);
 
-limitval = 0.3;
-
+% limitval = 0.25;
+limitval = 0.25;
 Nc = min(max(Nc,-limitval), limitval);
 % Nc = M_y/B;
 end

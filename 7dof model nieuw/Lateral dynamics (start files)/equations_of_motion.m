@@ -146,7 +146,7 @@ end
 %% determine necessary counterweight
 if inputs.control_on
 %     [Nc, B] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, (ackermanyawrate_old - ackermanyawrate)/inputs.dt, I_zz, Nc_old,M);
-    [Nc, B, M_y] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, (ackermanyawrate - ackermanyawrate_old)/inputs.dt - m_tot(3)/I_zz, I_zz, Nc_old, M);
+    [Nc, B, M_y] = suboptimalnormalforceaugmentation(tf, tr, a, b, F_fl, F_fr, F_rl, F_rr, ((ackermanyawrate - ackermanyawrate_old)/inputs.dt - m_tot(3)/I_zz), I_zz, Nc_old, M);
 
 else
     Nc = 0;

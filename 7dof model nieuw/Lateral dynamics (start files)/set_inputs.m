@@ -7,7 +7,7 @@ function inputs = set_inputs(vehicle_param)
 % Obligatory time information:
 % smaller dt makes animation much slower but forces are much more precise
 inputs.dt = 0.001;
-inputs.sim_time = 15;
+inputs.sim_time = 7;
 inputs.time = (0:inputs.dt:inputs.sim_time);
 
 inputs.animation = 0; % 1 = animate
